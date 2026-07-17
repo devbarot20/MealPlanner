@@ -8,8 +8,13 @@ connectDB();
 
 const app = express();
 
-// Middleware — allow all origins in development
-app.use(cors());
+// Middleware — explicit CORS
+app.use(cors({
+  origin: ['https://meal-planner-virid-nu.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
