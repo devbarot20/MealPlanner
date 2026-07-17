@@ -43,6 +43,8 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/recipes', require('./routes/recipeRoutes'));
 app.use('/api/mealplan', require('./routes/mealPlanRoutes'));
 
+app.get('/api/test-env', (req, res) => { res.json({ hasMongoUri: !!process.env.MONGO_URI, hasFrontendUrl: !!process.env.FRONTEND_URL, frontendUrlVal: process.env.FRONTEND_URL }); });
+
 // Use 8080 to avoid conflict with macOS AirPlay on port 5000
 const PORT = process.env.BACKEND_PORT || 8080;
 
