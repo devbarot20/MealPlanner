@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-const isProd = import.meta.env.PROD;
 const api = axios.create({
-  baseURL: isProd ? 'https://meal-planner-sutl-r5ckx8y49-devbarot20s-projects.vercel.app/api' : '/api'
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
 });
 
 // Intercept requests to add the auth token if available
