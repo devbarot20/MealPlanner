@@ -17,7 +17,7 @@ const corsOptions = {
 };
 
 // Handle preflight (OPTIONS) requests first for ALL routes
-app.options('*', cors(corsOptions));
+app.options('(.*)', cors(corsOptions));
 
 // Apply CORS to all other requests
 app.use(cors(corsOptions));
