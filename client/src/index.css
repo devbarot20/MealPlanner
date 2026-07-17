@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #b45309; /* copper-terracotta */
+  
+  --color-bg-base: #fafaf9; /* Stone 50 */
+  --color-surface: #ffffff; /* White */
+  --color-border-muted: #e7e5e4; /* Stone 200 */
+  --color-border-active: #a8a29e; /* Stone 400 */
+  --color-text-primary: #1c1917; /* Stone 900 */
+  --color-text-secondary: #57534e; /* Stone 600 */
+  --color-text-muted: #78716c; /* Stone 500 */
+
+  --font-display: 'Outfit', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+
+  --shadow-low: 0 1px 2px 0 rgba(0, 0, 0, 0.02), 0 4px 12px 0 rgba(0, 0, 0, 0.03);
+  --shadow-high: 0 1px 3px 0 rgba(0, 0, 0, 0.01), 0 8px 24px 0 rgba(0, 0, 0, 0.04), 0 16px 48px -8px rgba(0, 0, 0, 0.05);
+}
+
+:root {
+  --font-family: var(--font-sans);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+}
+
+/* Custom font utilities */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Print CSS overrides */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .print\:hidden {
+    display: none !important;
+  }
+  .print\:border-none {
+    border: none !important;
+  }
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+  .print\:p-0 {
+    padding: 0 !important;
+  }
+  .print\:py-2\.5 {
+    padding-top: 0.625rem !important;
+    padding-bottom: 0.625rem !important;
+  }
+  .print\:text-left {
+    text-align: left !important;
+  }
+  .print\:text-lg {
+    font-size: 1.125rem !important;
+  }
+  .print\:bg-white {
+    background-color: #ffffff !important;
+  }
+  .print\:text-slate-900 {
+    color: #0f172a !important;
+  }
+  .print\:px-0 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .print\:border-b-2 {
+    border-bottom-width: 2px !important;
+  }
+  .print\:border-slate-800 {
+    border-color: #1e293b !important;
+  }
+}
