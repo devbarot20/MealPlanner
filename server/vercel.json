@@ -9,17 +9,6 @@
   "routes": [
     {
       "src": "/(.*)",
-      "methods": ["OPTIONS"],
-      "headers": {
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Origin": "https://meal-planner-virid-nu.vercel.app",
-        "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With"
-      },
-      "status": 204
-    },
-    {
-      "src": "/(.*)",
       "dest": "/index.js"
     }
   ]
