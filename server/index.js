@@ -16,12 +16,20 @@ const corsOptions = {
   credentials: true,
 };
 
-// Handle preflight (OPTIONS) requests first for ALL routes
-app.options('/{*path}', cors(corsOptions));
+// Handle preflight OPTIONS requests manually — no path-to-regexp needed
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL || 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    return res.sendStatus(204);
+  }
+  next();
+});
 
-// Apply CORS to all other requests
+// Apply CORS to all non-OPTIONS requests
 app.use(cors(corsOptions));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
