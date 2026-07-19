@@ -8,9 +8,25 @@ connectDB();
 
 const app = express();
 
-// Shared CORS config — reads allowed origin from environment variable
+
+// Build the list of allowed origins from the env variable (supports comma-separated list)
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://meal-planner-virid-nu.vercel.app',
+  ...(process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL.split(',').map(o => o.trim())
+    : []),
+];
+
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. server-to-server, curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    callback(new Error(`CORS: Origin ${origin} not allowed`));
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -18,8 +34,11 @@ const corsOptions = {
 
 // Handle preflight OPTIONS requests manually — no path-to-regexp needed
 app.use((req, res, next) => {
+  const origin = req.headers.origin;
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL || 'http://localhost:5173');
+    if (!origin || allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin || '*');
+    }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
