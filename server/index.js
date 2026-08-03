@@ -64,11 +64,9 @@ app.use('/api/mealplan', require('./routes/mealPlanRoutes'));
 
 app.get('/api/test-env', (req, res) => { res.json({ hasMongoUri: !!process.env.MONGO_URI, hasFrontendUrl: !!process.env.FRONTEND_URL, frontendUrlVal: process.env.FRONTEND_URL }); });
 
-// Use 8080 to avoid conflict with macOS AirPlay on port 5000
-const PORT = process.env.BACKEND_PORT || 8080;
+// Use Render's PORT or default to 8080
+const PORT = process.env.PORT || process.env.BACKEND_PORT || 8080;
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app;
