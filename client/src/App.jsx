@@ -9,12 +9,14 @@ import RecipeForm from './pages/RecipeForm';
 import MealPlanner from './pages/MealPlanner';
 import GroceryList from './pages/GroceryList';
 
+import Landing from './pages/Landing';
+
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/planner" replace />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route 
