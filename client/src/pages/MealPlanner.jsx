@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { DndContext, DragOverlay, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
-import { Loader2, Search, Trash2 } from 'lucide-react';
+import { Loader2, Search, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
 import api from '../utils/api';
@@ -25,7 +25,7 @@ const DraggableRecipe = ({ recipe }) => {
       style={style}
       {...listeners}
       {...attributes}
-      className="bg-surface border border-border-muted hover:border-primary p-3 rounded-xl shadow-sm hover:shadow-low cursor-grab active:cursor-grabbing transition-all duration-200 flex items-center gap-3.5 hover:scale-[1.01]"
+      className="bg-surface border border-border-muted hover:border-primary p-3 rounded-xl shadow-sm hover:shadow-low cursor-grab active:cursor-grabbing transition-all duration-200 flex items-center gap-3.5 hover:scale-[1.01] touch-none"
     >
       <div className="w-12 h-12 rounded-lg bg-stone-100 overflow-hidden shrink-0 border border-border-muted">
         <img 
@@ -133,6 +133,7 @@ const MealPlanner = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeDragItem, setActiveDragItem] = useState(null);
+  const [isCookbookExpanded, setIsCookbookExpanded] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -142,13 +143,28 @@ const MealPlanner = () => {
     })
   );
 
-  const getWeekRangeLabel = (startStr) => {
+  const renderWeekRangeLabel = (startStr) => {
     const start = new Date(startStr);
     const end = new Date(start);
     end.setDate(end.getDate() + 6);
     
-    const formatOption = { month: 'short', day: 'numeric', year: 'numeric' };
-    return `${start.toLocaleDateString('en-US', formatOption)} - ${end.toLocaleDateString('en-US', formatOption)}`;
+    const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
+    const startDay = start.getDate();
+    const startYear = start.getFullYear();
+    
+    const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
+    const endDay = end.getDate();
+    const endYear = end.getFullYear();
+    
+    return (
+      <span>
+        {startMonth} {startDay}
+        <span className="hidden sm:inline">, {startYear}</span>
+        {` - `}
+        {startMonth !== endMonth ? `${endMonth} ` : ''}{endDay}
+        <span className="hidden sm:inline">, {endYear}</span>
+      </span>
+    );
   };
 
   const handlePrevWeek = () => {
@@ -296,7 +312,7 @@ const MealPlanner = () => {
                   Today
                 </button>
                 <span className="text-sm font-semibold text-text-primary px-3 py-1 border-x border-border-muted font-display">
-                  {getWeekRangeLabel(currentWeekStart)}
+                  {renderWeekRangeLabel(currentWeekStart)}
                 </span>
                 <button
                   onClick={handleNextWeek}
@@ -332,8 +348,26 @@ const MealPlanner = () => {
           </div>
 
           {/* Sidebar for Recipes */}
-          <div className="fixed md:relative bottom-0 left-0 right-0 md:w-80 bg-surface border-t md:border-l md:border-t-0 border-border-muted flex flex-col h-1/3 md:h-full z-10 shadow-2xl md:shadow-none shrink-0">
-            <div className="p-4 border-b border-border-muted shrink-0">
+          <div className={`fixed md:relative bottom-0 left-0 right-0 md:w-80 bg-surface border-t md:border-l md:border-t-0 border-border-muted flex flex-col transition-all duration-300 z-20 shadow-2xl md:shadow-none shrink-0 ${
+            isCookbookExpanded ? 'h-1/2' : 'h-[52px] md:h-full'
+          }`}>
+            <button 
+              onClick={() => setIsCookbookExpanded(!isCookbookExpanded)}
+              className="md:hidden w-full py-3.5 flex items-center justify-center gap-1.5 border-b border-border-muted bg-stone-50 hover:bg-stone-100 text-text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+            >
+              {isCookbookExpanded ? (
+                <>
+                  <ChevronDown size={15} />
+                  <span>Hide Cookbook</span>
+                </>
+              ) : (
+                <>
+                  <ChevronUp size={15} />
+                  <span>Show Cookbook ({filteredRecipes.length})</span>
+                </>
+              )}
+            </button>
+            <div className={`p-4 border-b border-border-muted shrink-0 ${!isCookbookExpanded ? 'hidden md:block' : ''}`}>
               <h2 className="font-bold text-text-primary mb-3 font-display">Your Cookbook</h2>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -349,7 +383,7 @@ const MealPlanner = () => {
               </div>
             </div>
             
-            <div className="flex-grow overflow-y-auto p-4 flex flex-col gap-3 bg-stone-50/20">
+            <div className={`flex-grow overflow-y-auto p-4 flex flex-col gap-3 bg-stone-50/20 ${!isCookbookExpanded ? 'hidden md:flex' : ''}`}>
               {loading ? (
                 [...Array(5)].map((_, i) => <RecipeItemSkeleton key={i} />)
               ) : (

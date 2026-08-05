@@ -27,7 +27,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="flex items-center space-x-4 sm:space-x-8">
+          <div className="flex items-center space-x-2.5 sm:space-x-8">
             <Link
               to="/recipes"
               className="text-text-secondary hover:text-primary font-medium transition-colors"

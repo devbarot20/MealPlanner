@@ -23,13 +23,28 @@ const GroceryList = () => {
   const [checkedItems, setCheckedItems] = useState({}); // maps item.key -> boolean
   const [copied, setCopied] = useState(false);
 
-  const getWeekRangeLabel = (startStr) => {
+  const renderWeekRangeLabel = (startStr) => {
     const start = new Date(startStr);
     const end = new Date(start);
     end.setDate(end.getDate() + 6);
     
-    const formatOption = { month: 'short', day: 'numeric', year: 'numeric' };
-    return `${start.toLocaleDateString('en-US', formatOption)} - ${end.toLocaleDateString('en-US', formatOption)}`;
+    const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
+    const startDay = start.getDate();
+    const startYear = start.getFullYear();
+    
+    const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
+    const endDay = end.getDate();
+    const endYear = end.getFullYear();
+    
+    return (
+      <span>
+        {startMonth} {startDay}
+        <span className="hidden sm:inline">, {startYear}</span>
+        {` - `}
+        {startMonth !== endMonth ? `${endMonth} ` : ''}{endDay}
+        <span className="hidden sm:inline">, {endYear}</span>
+      </span>
+    );
   };
 
   const handlePrevWeek = () => {
@@ -185,7 +200,7 @@ const GroceryList = () => {
             </div>
 
             <div className="text-center sm:text-right font-bold text-text-primary text-sm sm:text-base print:text-left print:text-lg font-display">
-              Week of {getWeekRangeLabel(currentWeekStart)}
+              Week of {renderWeekRangeLabel(currentWeekStart)}
             </div>
           </div>
         </div>
