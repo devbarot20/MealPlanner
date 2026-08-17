@@ -128,29 +128,29 @@ const RecipeForm = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="min-h-screen bg-stone-50 pb-20">
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
-          <Link to="/recipes" className="inline-flex items-center text-slate-500 hover:text-emerald-600 transition-colors">
+          <Link to="/recipes" className="inline-flex items-center text-stone-500 hover:text-primary transition-colors">
             <ArrowLeft size={18} className="mr-1.5" /> Back to recipes
           </Link>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div className="p-6 md:p-10 border-b border-slate-100 bg-slate-900 text-white">
+        <div className="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+          <div className="p-6 md:p-10 border-b border-stone-100 bg-stone-900 text-white">
             <h1 className="text-3xl font-bold tracking-tight">
               {isEditing ? 'Edit Recipe' : 'Create New Recipe'}
             </h1>
-            <p className="text-slate-400 mt-2">
+            <p className="text-stone-400 mt-2">
               Fill in the details below to save this recipe to your personal cookbook.
             </p>
           </div>
@@ -166,61 +166,61 @@ const RecipeForm = () => {
 
               {/* Basic Info Section */}
               <section>
-                <h2 className="text-xl font-bold text-slate-800 border-b border-slate-100 pb-2 mb-6">Basic Details</h2>
+                <h2 className="text-xl font-bold text-stone-800 border-b border-stone-100 pb-2 mb-6">Basic Details</h2>
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Recipe Title *</label>
+                    <label className="block text-sm font-medium text-stone-700 mb-1">Recipe Title *</label>
                     <input
                       type="text"
                       required
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       placeholder="e.g., Spicy Thai Basil Chicken"
-                      className="block w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors text-slate-900 bg-slate-50"
+                      className="block w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:ring-primary focus:border-primary outline-none transition-colors text-stone-900 bg-stone-50"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Description *</label>
+                    <label className="block text-sm font-medium text-stone-700 mb-1">Description *</label>
                     <textarea
                       required
                       rows="3"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="A brief description of this dish..."
-                      className="block w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors text-slate-900 bg-slate-50 resize-none"
+                      className="block w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:ring-primary focus:border-primary outline-none transition-colors text-stone-900 bg-stone-50 resize-none"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Prep Time (minutes)</label>
+                      <label className="block text-sm font-medium text-stone-700 mb-1">Prep Time (minutes)</label>
                       <input
                         type="number"
                         min="0"
                         value={prepTime}
                         onChange={(e) => setPrepTime(Number(e.target.value))}
                         placeholder="e.g., 30"
-                        className="block w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors text-slate-900 bg-slate-50"
+                        className="block w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:ring-primary focus:border-primary outline-none transition-colors text-stone-900 bg-stone-50"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Servings</label>
+                      <label className="block text-sm font-medium text-stone-700 mb-1">Servings</label>
                       <input
                         type="number"
                         min="0"
                         value={servings}
                         onChange={(e) => setServings(Number(e.target.value))}
                         placeholder="e.g., 4"
-                        className="block w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors text-slate-900 bg-slate-50"
+                        className="block w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:ring-primary focus:border-primary outline-none transition-colors text-stone-900 bg-stone-50"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Recipe Image</label>
-                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                    <label className="block text-sm font-medium text-stone-700 mb-1">Recipe Image</label>
+                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-stone-300 border-dashed rounded-xl bg-stone-50 hover:bg-stone-100 transition-colors">
                       <div className="space-y-2 text-center">
                         {imagePreview ? (
                           <div className="relative w-full max-w-sm mx-auto rounded-lg overflow-hidden shadow-sm">
@@ -230,18 +230,18 @@ const RecipeForm = () => {
                             </label>
                           </div>
                         ) : (
-                          <ImageIcon className="mx-auto h-12 w-12 text-slate-400" />
+                          <ImageIcon className="mx-auto h-12 w-12 text-stone-400" />
                         )}
-                        <div className="flex justify-center text-sm text-slate-600 mt-4">
+                        <div className="flex justify-center text-sm text-stone-600 mt-4">
                           <label
                             htmlFor="file-upload"
-                            className="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-amber-800 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-amber-800 px-3 py-1 shadow-sm border border-slate-200"
+                            className="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-amber-800 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-amber-800 px-3 py-1 shadow-sm border border-stone-200"
                           >
                             <span>Upload a file</span>
                             <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*" onChange={handleImageChange} />
                           </label>
                         </div>
-                        {!imagePreview && <p className="text-xs text-slate-500">PNG, JPG, GIF up to 5MB</p>}
+                        {!imagePreview && <p className="text-xs text-stone-500">PNG, JPG, GIF up to 5MB</p>}
                       </div>
                     </div>
                   </div>
@@ -252,7 +252,7 @@ const RecipeForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 {/* Ingredients */}
                 <section>
-                  <h2 className="text-xl font-bold text-slate-800 border-b border-slate-100 pb-2 mb-6">Ingredients *</h2>
+                  <h2 className="text-xl font-bold text-stone-800 border-b border-stone-100 pb-2 mb-6">Ingredients *</h2>
                   <div className="space-y-3">
                     {ingredients.map((ingredient, idx) => (
                       <div key={idx} className="flex items-center gap-2">
@@ -261,12 +261,12 @@ const RecipeForm = () => {
                           value={ingredient}
                           onChange={(e) => handleArrayChange(setIngredients, idx, e.target.value)}
                           placeholder="e.g., 2 cups flour"
-                          className="flex-grow px-4 py-2 border border-slate-200 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors text-slate-900"
+                          className="flex-grow px-4 py-2 border border-stone-200 rounded-lg focus:ring-primary focus:border-primary outline-none transition-colors text-stone-900"
                         />
                         <button
                           type="button"
                           onClick={() => handleRemoveArrayItem(setIngredients, idx)}
-                          className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -284,11 +284,11 @@ const RecipeForm = () => {
 
                 {/* Instructions */}
                 <section>
-                  <h2 className="text-xl font-bold text-slate-800 border-b border-slate-100 pb-2 mb-6">Instructions *</h2>
+                  <h2 className="text-xl font-bold text-stone-800 border-b border-stone-100 pb-2 mb-6">Instructions *</h2>
                   <div className="space-y-3">
                     {instructions.map((step, idx) => (
                       <div key={idx} className="flex items-start gap-2">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-medium shrink-0 mt-0.5">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-stone-100 text-stone-500 font-medium shrink-0 mt-0.5">
                           {idx + 1}
                         </div>
                         <textarea
@@ -296,12 +296,12 @@ const RecipeForm = () => {
                           onChange={(e) => handleArrayChange(setInstructions, idx, e.target.value)}
                           placeholder="e.g., Preheat oven to 350°F..."
                           rows="2"
-                          className="flex-grow px-4 py-2 border border-slate-200 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors text-slate-900 resize-none"
+                          className="flex-grow px-4 py-2 border border-stone-200 rounded-lg focus:ring-primary focus:border-primary outline-none transition-colors text-stone-900 resize-none"
                         />
                         <button
                           type="button"
                           onClick={() => handleRemoveArrayItem(setInstructions, idx)}
-                          className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors mt-0.5"
+                          className="p-2 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors mt-0.5"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -320,7 +320,7 @@ const RecipeForm = () => {
 
               {/* Tags Section */}
               <section>
-                <h2 className="text-xl font-bold text-slate-800 border-b border-slate-100 pb-2 mb-6">Tags</h2>
+                <h2 className="text-xl font-bold text-stone-800 border-b border-stone-100 pb-2 mb-6">Tags</h2>
                 <div className="space-y-3">
                   <div className="flex flex-wrap gap-3">
                     {tags.map((tag, idx) => (
@@ -330,12 +330,12 @@ const RecipeForm = () => {
                           value={tag}
                           onChange={(e) => handleArrayChange(setTags, idx, e.target.value)}
                           placeholder="e.g., Vegan"
-                          className="w-32 px-3 py-1.5 border border-slate-200 rounded-l-lg focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors text-sm text-slate-900"
+                          className="w-32 px-3 py-1.5 border border-stone-200 rounded-l-lg focus:ring-primary focus:border-primary outline-none transition-colors text-sm text-stone-900"
                         />
                         <button
                           type="button"
                           onClick={() => handleRemoveArrayItem(setTags, idx)}
-                          className="px-2 py-1.5 bg-slate-100 text-slate-400 hover:text-red-500 hover:bg-red-50 border border-l-0 border-slate-200 rounded-r-lg transition-colors"
+                          className="px-2 py-1.5 bg-stone-100 text-stone-400 hover:text-red-500 hover:bg-red-50 border border-l-0 border-stone-200 rounded-r-lg transition-colors"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -353,10 +353,10 @@ const RecipeForm = () => {
               </section>
 
               {/* Submit */}
-              <div className="pt-8 border-t border-slate-100 flex justify-end gap-4">
+              <div className="pt-8 border-t border-stone-100 flex justify-end gap-4">
                 <Link
                   to="/recipes"
-                  className="px-6 py-2.5 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 transition-colors"
+                  className="px-6 py-2.5 border border-stone-300 rounded-lg text-stone-700 font-medium hover:bg-stone-50 transition-colors"
                 >
                   Cancel
                 </Link>

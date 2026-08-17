@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import { DndContext, DragOverlay, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
-import { Loader2, Search, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
+import { Loader2, Search, Trash2, ChevronUp, ChevronDown, GripVertical, CalendarPlus } from 'lucide-react';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
 import api from '../utils/api';
 import Navbar from '../components/Navbar';
 
 // --- Draggable Recipe Item for Sidebar ---
-const DraggableRecipe = ({ recipe }) => {
+const DraggableRecipe = ({ recipe, onAddRecipe }) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: `recipe-${recipe._id}`,
     data: { type: 'Recipe', recipe }
   });
+
+  const [showDaySelector, setShowDaySelector] = useState(false);
 
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
@@ -19,25 +21,87 @@ const DraggableRecipe = ({ recipe }) => {
     zIndex: 50,
   } : undefined;
 
+  const daysShort = [
+    { id: 'monday', label: 'M' },
+    { id: 'tuesday', label: 'T' },
+    { id: 'wednesday', label: 'W' },
+    { id: 'thursday', label: 'T' },
+    { id: 'friday', label: 'F' },
+    { id: 'saturday', label: 'S' },
+    { id: 'sunday', label: 'S' },
+  ];
+
   return (
     <div
       ref={setNodeRef}
       style={style}
-      {...listeners}
-      {...attributes}
-      className="bg-surface border border-border-muted hover:border-primary p-3 rounded-xl shadow-sm hover:shadow-low cursor-grab active:cursor-grabbing transition-all duration-200 flex items-center gap-3.5 hover:scale-[1.01] touch-none"
+      className="bg-surface border border-border-muted hover:border-primary p-3 rounded-xl shadow-sm hover:shadow-low transition-all duration-200 flex flex-col gap-2 hover:scale-[1.01]"
     >
-      <div className="w-12 h-12 rounded-lg bg-stone-100 overflow-hidden shrink-0 border border-border-muted">
-        <img 
-          src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=100&q=80'} 
-          alt={recipe.title}
-          className="w-full h-full object-cover"
-        />
+      <div className="flex items-center gap-2">
+        {/* Grip Handle for Dragging */}
+        <div
+          {...listeners}
+          {...attributes}
+          className="text-text-muted hover:text-primary cursor-grab active:cursor-grabbing p-1 rounded-md hover:bg-stone-50 shrink-0 touch-none"
+          title="Drag to schedule"
+        >
+          <GripVertical size={18} />
+        </div>
+
+        {/* Recipe details */}
+        <div className="w-10 h-10 rounded-lg bg-stone-100 overflow-hidden shrink-0 border border-border-muted">
+          <img 
+            src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=100&q=80'} 
+            alt={recipe.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="min-w-0 flex-grow">
+          <h4 className="font-bold text-text-primary text-sm line-clamp-1 font-display">{recipe.title}</h4>
+          <p className="text-xs text-text-secondary line-clamp-1 mt-0.5">{recipe.description}</p>
+        </div>
+
+        {/* Quick Add Toggle Button */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowDaySelector(!showDaySelector);
+          }}
+          className={`p-2 rounded-lg transition-colors cursor-pointer shrink-0 ${
+            showDaySelector 
+              ? 'bg-primary text-white hover:bg-amber-800' 
+              : 'text-text-muted hover:text-primary hover:bg-stone-50'
+          }`}
+          title="Add to meal plan"
+        >
+          <CalendarPlus size={18} />
+        </button>
       </div>
-      <div className="min-w-0">
-        <h4 className="font-bold text-text-primary text-sm line-clamp-1 font-display">{recipe.title}</h4>
-        <p className="text-xs text-text-secondary line-clamp-1 mt-0.5">{recipe.description}</p>
-      </div>
+
+      {/* Day Selector Tray */}
+      {showDaySelector && (
+        <div className="flex items-center justify-between gap-1.5 pt-2 border-t border-border-muted/50 animate-in fade-in slide-in-from-top-1 duration-150">
+          <span className="text-[10px] uppercase font-bold text-text-muted shrink-0 mr-1">Add to:</span>
+          <div className="flex gap-1 flex-grow justify-around">
+            {daysShort.map((day) => (
+              <button
+                key={day.id}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onAddRecipe(recipe, day.id);
+                  setShowDaySelector(false);
+                }}
+                className="w-6 h-6 rounded-full bg-stone-50 hover:bg-primary/10 text-text-secondary hover:text-primary text-[10px] font-extrabold flex items-center justify-center border border-border-muted transition-colors cursor-pointer animate-none"
+                title={`Add to ${day.id.charAt(0).toUpperCase() + day.id.slice(1)}`}
+              >
+                {day.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -79,7 +143,7 @@ const DroppableDay = ({ id, dayName, recipes, onRemove }) => {
             </div>
             <button 
               onClick={() => onRemove(id, index)}
-              className="text-text-muted hover:text-red-600 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity p-1.5 hover:bg-red-50 rounded-lg cursor-pointer"
+              className="text-text-muted hover:text-red-600 md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 transition-opacity p-1.5 hover:bg-red-50 rounded-lg cursor-pointer shrink-0"
               title="Remove recipe"
             >
               <Trash2 size={15} />
@@ -245,6 +309,15 @@ const MealPlanner = () => {
     savePlanToBackend(updatedPlan);
   };
 
+  const handleAddRecipeToDay = (recipe, dayId) => {
+    const updatedPlan = {
+      ...plan,
+      [dayId]: [...plan[dayId], recipe]
+    };
+    setPlan(updatedPlan);
+    savePlanToBackend(updatedPlan);
+  };
+
   const savePlanToBackend = async (newPlan) => {
     try {
       setSaving(true);
@@ -289,7 +362,7 @@ const MealPlanner = () => {
           onDragEnd={handleDragEnd}
         >
           {/* Main Content Area (Calendar View) */}
-          <div className="flex-grow p-4 md:p-6 overflow-y-auto">
+          <div className="flex-grow p-4 md:p-6 pb-20 md:pb-6 overflow-y-auto">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div>
                 <h1 className="text-2xl font-bold text-text-primary font-display">Weekly Meal Planner</h1>
@@ -332,10 +405,10 @@ const MealPlanner = () => {
               </div>
             </div>
 
-            {/* Horizontal scroll container for the 7 days */}
-            <div className="flex gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x">
+            {/* Horizontal scroll container for smaller screens, full grid for large desktops */}
+            <div className="flex xl:grid xl:grid-cols-7 gap-4 overflow-x-auto xl:overflow-x-visible pb-4 hide-scrollbar snap-x xl:w-full">
               {days.map((day) => (
-                <div key={day} className="w-72 shrink-0 snap-start">
+                <div key={day} className="w-72 xl:w-auto shrink-0 xl:shrink snap-start">
                   <DroppableDay 
                     id={day} 
                     dayName={day} 
@@ -389,7 +462,7 @@ const MealPlanner = () => {
               ) : (
                 filteredRecipes.length > 0 ? (
                   filteredRecipes.map(recipe => (
-                    <DraggableRecipe key={recipe._id} recipe={recipe} />
+                    <DraggableRecipe key={recipe._id} recipe={recipe} onAddRecipe={handleAddRecipeToDay} />
                   ))
                 ) : (
                   <p className="text-center text-text-muted text-sm py-8 font-medium">

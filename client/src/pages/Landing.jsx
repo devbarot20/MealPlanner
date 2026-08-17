@@ -31,16 +31,16 @@ const Landing = () => {
       </div>
 
       {/* ─── Navbar ─── */}
-      <nav className="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center z-10">
-        <div className="flex items-center gap-2.5 text-primary font-display font-bold text-2xl">
-          <ChefHat size={32} />
+      <nav className="w-full max-w-7xl mx-auto px-4 py-4 sm:px-6 sm:py-6 flex justify-between items-center z-10 gap-4">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 text-primary font-display font-bold text-xl sm:text-2xl shrink-0">
+          <ChefHat className="w-6 h-6 sm:w-8 sm:h-8" />
           <span>MealPlanner</span>
         </div>
-        <div className="flex gap-3 items-center">
-          <Link to="/login" className="px-5 py-2.5 font-semibold text-text-secondary hover:text-primary transition-colors">
+        <div className="flex gap-1 sm:gap-3 items-center">
+          <Link to="/login" className="px-3 py-2 sm:px-5 sm:py-2.5 font-semibold text-text-secondary hover:text-primary transition-colors text-sm sm:text-base">
             Log in
           </Link>
-          <Link to="/register" className="px-6 py-2.5 font-semibold bg-primary text-white rounded-full hover:bg-amber-700 transition-all shadow-low hover:shadow-high hover:-translate-y-0.5">
+          <Link to="/register" className="px-4 py-2 sm:px-6 sm:py-2.5 font-semibold bg-primary text-white rounded-full hover:bg-amber-700 transition-all shadow-low hover:shadow-high hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap">
             Sign up free
           </Link>
         </div>

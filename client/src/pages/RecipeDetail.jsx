@@ -182,8 +182,8 @@ const RecipeDetail = () => {
         <div className="bg-surface rounded-2xl shadow-high border border-border-muted overflow-hidden">
           
           {/* Action Bar */}
-          <div className="bg-stone-50 border-b border-border-muted px-6 py-4 flex justify-between items-center flex-wrap gap-4">
-            <div className="flex items-center gap-6 text-sm text-text-secondary font-semibold">
+          <div className="bg-stone-50 border-b border-border-muted px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center flex-wrap gap-4">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-text-secondary font-semibold">
               <div className="flex items-center gap-2">
                 <Clock size={18} className="text-primary" />
                 <span>Prep Time: {recipe.prepTime ? `${recipe.prepTime} mins` : 'N/A'}</span>
@@ -202,29 +202,32 @@ const RecipeDetail = () => {
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <button 
                 onClick={handleToggleFavorite}
-                className={`inline-flex items-center gap-2 px-4 py-2 border rounded-lg text-sm font-semibold transition-all cursor-pointer active:scale-98 shadow-xs ${
+                className={`inline-flex items-center gap-2 px-2.5 sm:px-4 py-2 border rounded-lg text-sm font-semibold transition-all cursor-pointer active:scale-98 shadow-xs ${
                   isFavorite 
                     ? 'bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100' 
                     : 'bg-surface border-border-muted text-text-secondary hover:bg-stone-50'
                 }`}
+                title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
               >
                 <Heart size={16} className={isFavorite ? 'fill-rose-600' : ''} />
-                <span>{isFavorite ? 'Favorited' : 'Favorite'}</span>
+                <span className="hidden sm:inline">{isFavorite ? 'Favorited' : 'Favorite'}</span>
               </button>
               <Link 
                 to={`/recipes/edit/${recipe._id}`} 
-                className="inline-flex items-center gap-2 px-4 py-2 bg-stone-100 hover:bg-stone-200 border border-border-muted text-text-secondary rounded-lg text-sm font-semibold transition-all active:scale-98"
+                className="inline-flex items-center gap-2 px-2.5 sm:px-4 py-2 bg-stone-100 hover:bg-stone-200 border border-border-muted text-text-secondary rounded-lg text-sm font-semibold transition-all active:scale-98"
+                title="Edit recipe"
               >
-                <Edit size={16} /> Edit
+                <Edit size={16} /> <span className="hidden sm:inline">Edit</span>
               </Link>
               <button 
                 onClick={handleDelete}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 border border-red-100 text-red-600 rounded-lg text-sm font-semibold transition-all active:scale-98"
+                className="inline-flex items-center gap-2 px-2.5 sm:px-4 py-2 bg-red-50 hover:bg-red-100 border border-red-100 text-red-600 rounded-lg text-sm font-semibold transition-all active:scale-98"
+                title="Delete recipe"
               >
-                <Trash2 size={16} /> Delete
+                <Trash2 size={16} /> <span className="hidden sm:inline">Delete</span>
               </button>
             </div>
           </div>
