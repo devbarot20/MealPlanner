@@ -21,7 +21,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           {/* Logo Section */}
           <div className="flex items-center">
-            <Link to="/dashboard" className="flex items-center gap-2 group">
+            <Link to="/" className="flex items-center gap-2 group">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-stone-50 overflow-hidden shrink-0 border border-border-muted shadow-sm p-1.5 flex items-center justify-center group-hover:border-primary transition-colors">
                 <img src="/logo.png" alt="Mise logo" className="w-full h-full object-contain" />
               </div>
