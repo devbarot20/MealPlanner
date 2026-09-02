@@ -1,8 +1,12 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChefHat, Calendar, ShoppingCart, ArrowRight, Sparkles, Clock, Users, Heart, BookOpen, Utensils } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
 
 const Landing = () => {
+  const { user } = useContext(AuthContext);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -32,17 +36,27 @@ const Landing = () => {
 
       {/* ─── Navbar ─── */}
       <nav className="w-full max-w-7xl mx-auto px-4 py-4 sm:px-6 sm:py-6 flex justify-between items-center z-10 gap-4">
-        <div className="flex items-center gap-1.5 sm:gap-2.5 text-primary font-display font-bold text-xl sm:text-2xl shrink-0">
-          <ChefHat className="w-6 h-6 sm:w-8 sm:h-8" />
-          <span>MealPlanner</span>
-        </div>
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-stone-50 overflow-hidden shrink-0 border border-border-muted shadow-sm p-1.5 flex items-center justify-center group-hover:border-primary transition-colors">
+            <img src="/logo.png" alt="Mise logo" className="w-full h-full object-contain" />
+          </div>
+          <span className="font-extrabold text-xl sm:text-2xl text-text-primary tracking-tight font-display">Mise</span>
+        </Link>
         <div className="flex gap-1 sm:gap-3 items-center">
-          <Link to="/login" className="px-3 py-2 sm:px-5 sm:py-2.5 font-semibold text-text-secondary hover:text-primary transition-colors text-sm sm:text-base">
-            Log in
-          </Link>
-          <Link to="/register" className="px-4 py-2 sm:px-6 sm:py-2.5 font-semibold bg-primary text-white rounded-full hover:bg-amber-700 transition-all shadow-low hover:shadow-high hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap">
-            Sign up free
-          </Link>
+          {user ? (
+            <Link to="/planner" className="px-4 py-2 sm:px-6 sm:py-2.5 font-semibold bg-primary text-white rounded-full hover:bg-amber-700 transition-all shadow-low hover:shadow-high hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap">
+              Go to Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link to="/login" className="px-3 py-2 sm:px-5 sm:py-2.5 font-semibold text-text-secondary hover:text-primary transition-colors text-sm sm:text-base">
+                Log in
+              </Link>
+              <Link to="/register" className="px-4 py-2 sm:px-6 sm:py-2.5 font-semibold bg-primary text-white rounded-full hover:bg-amber-700 transition-all shadow-low hover:shadow-high hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap">
+                Sign up free
+              </Link>
+            </>
+          )}
         </div>
       </nav>
 
